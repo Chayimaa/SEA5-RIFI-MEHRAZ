@@ -9,6 +9,6 @@ class Depots extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'adresse', 'capacite'];
+    protected $fillable = ['nom', 'adresse', 'capacite', 'code_postal', 'ville', 'longitude', 'latitude'];
 }
 

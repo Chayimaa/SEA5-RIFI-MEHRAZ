@@ -14,8 +14,12 @@ public function up(): void
     Schema::create('depots', function (Blueprint $table) {
         $table->id();
         $table->string('nom');
-        $table->string('adresse');
         $table->integer('capacite');
+        $table->string('adresse');
+        $table->string('code_postal');
+        $table->string('ville');
+        $table->decimal('longitude', 10, 7);
+        $table->decimal('latitude', 10, 7);
         $table->timestamps();
     });
 }

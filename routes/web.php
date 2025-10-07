@@ -15,5 +15,6 @@ Route::delete('/panier/{id}', [PanierController::class, 'destroy'])->name('panie
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::resource('depots', App\Http\Controllers\DepotController::class);
 
 Route::get('/depots', [DepotController::class, 'index'])->name('depots.index');
