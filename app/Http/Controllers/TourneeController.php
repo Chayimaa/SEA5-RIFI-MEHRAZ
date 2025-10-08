@@ -2,64 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tournee;
+use App\Models\Depot;
 use Illuminate\Http\Request;
 
 class TourneeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Afficher toutes les tournées (READ)
     public function index()
     {
-        //
+        $tournees = Tournee::with('depots')->orderBy('date_tournee', 'desc')->get();
+        return view('tournees.index', compact('tournees'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Formulaire pour créer une nouvelle tournée (CREATE - formulaire)
     public function create()
     {
-        //
+        $depots = Depot::all();
+        return view('tournees.create', compact('depots'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Enregistrer une nouvelle tournée (CREATE - enregistrement)
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'date_tournee' => 'required|date',
+            'heure_depart' => 'nullable',
+            'statut' => 'required|string',
+            'remarques' => 'nullable|string',
+            'depots' => 'nullable|array',
+        ]);
+
+        $tournee = Tournee::create($validated);
+
+        // Attacher les dépôts sélectionnés
+        if ($request->has('depots')) {
+            foreach ($request->depots as $index => $depotId) {
+                $tournee->depots()->attach($depotId, ['ordre' => $index + 1]);
+            }
+        }
+
+        return redirect()->route('tournees.index')
+                         ->with('success', 'Tournée créée avec succès !');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Afficher une tournée spécifique (READ - détail)
+    public function show(Tournee $tournee)
     {
-        //
+        $tournee->load('depots');
+        return view('tournees.show', compact('tournee'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // Formulaire pour modifier une tournée (UPDATE - formulaire)
+    public function edit(Tournee $tournee)
     {
-        //
+        $depots = Depot::all();
+        $tournee->load('depots');
+        return view('tournees.edit', compact('tournee', 'depots'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Enregistrer les modifications (UPDATE - enregistrement)
+    public function update(Request $request, Tournee $tournee)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'date_tournee' => 'required|date',
+            'heure_depart' => 'nullable',
+            'statut' => 'required|string',
+            'remarques' => 'nullable|string',
+            'depots' => 'nullable|array',
+        ]);
+
+        $tournee->update($validated);
+
+        // Mettre à jour les dépôts
+        $tournee->depots()->detach(); // Supprimer les anciennes associations
+        if ($request->has('depots')) {
+            foreach ($request->depots as $index => $depotId) {
+                $tournee->depots()->attach($depotId, ['ordre' => $index + 1]);
+            }
+        }
+
+        return redirect()->route('tournees.index')
+                         ->with('success', 'Tournée modifiée avec succès !');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Supprimer une tournée (DELETE)
+    public function destroy(Tournee $tournee)
     {
-        //
+        $tournee->delete();
+        return redirect()->route('tournees.index')
+                         ->with('success', 'Tournée supprimée avec succès !');
     }
 }
