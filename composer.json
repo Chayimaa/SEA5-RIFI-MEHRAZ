@@ -1,5 +1,18 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
+"repositories": [
+        {
+            "type": "composer",
+            "url": "http://repo.packagist.org",
+            "options": {
+                "ssl": {
+                    "verify_peer": false,
+                    "verify_peer_name": false,
+                    "allow_self_signed": true
+                }
+            }
+        }
+    ],
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
@@ -68,7 +81,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "cafile": "C:\\Users\\OH\\cacert.pem"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

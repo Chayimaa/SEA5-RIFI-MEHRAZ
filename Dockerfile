@@ -6,12 +6,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN a2enmod rewrite
 
-COPY . /var/www/html
+COPY --chown=www-data:www-data . /var/www/html
 WORKDIR /var/www/html
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
-
+RUN chmod -R 755 /var/www/html/storage /var/www/html/logs
     
