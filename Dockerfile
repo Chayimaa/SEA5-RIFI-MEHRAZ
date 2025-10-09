@@ -1,21 +1,21 @@
 FROM php:8.2-apache
 
-# Installer les dépendances
+
 RUN apt-get update && apt-get install -y \
     libsqlite3-dev zip unzip curl git \
     && docker-php-ext-install pdo pdo_sqlite
 
-# Activer mod_rewrite
+
 RUN a2enmod rewrite
 
-# Installer Composer
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copier les fichiers du projet
+
 COPY --chown=www-data:www-data . /var/www/html
 WORKDIR /var/www/html
 
-# Installer les dépendances Laravel
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Générer la clé Laravel
