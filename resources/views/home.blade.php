@@ -416,6 +416,7 @@
                         </div>
                         <div>
                             <h3 class="h5 mb-0">Les Jardins de Cocagne</h3>
+                            <h3 class="h5 mb-0">Chayimaa MEHRAZ / Zaynab RIFI</h3>
                             <p class="mb-0 small text-success">Thaon-les-Vosges</p>
                         </div>
                     </div>
