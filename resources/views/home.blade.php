@@ -194,6 +194,27 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3">
+    <a href="{{ route('tournees.index') }}" class="text-decoration-none">
+        <div class="card border-0 shadow-sm h-100 card-hover" style="transition: all 0.3s;">
+            <div class="card-body p-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3"
+                     style="width: 56px; height: 56px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+                    <i class="fas fa-route text-white text-2xl"></i>
+                </div>
+                <h3 class="h5 fw-bold mb-2 text-dark">Tournées</h3>
+                <p class="text-secondary mb-3">Planifiez et organisez les tournées de livraison</p>
+                <div class="text-success fw-medium d-flex align-items-center">
+                    En savoir plus
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ms-1">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+                <div class="col-md-6 col-lg-3">
                     <a href="/association" class="text-decoration-none">
                         <div class="card border-0 shadow-sm h-100 card-hover" style="transition: all 0.3s;">
                             <div class="card-body p-4">
