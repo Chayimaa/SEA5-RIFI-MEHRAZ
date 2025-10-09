@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Depots;
 
 class Tournee extends Model
 {
@@ -22,7 +23,7 @@ class Tournee extends Model
     // Relation many-to-many avec Depot
     public function depots()
     {
-        return $this->belongsToMany(Depot::class)
+        return $this->belongsToMany(Depots::class)
                     ->withPivot('ordre')
                     ->orderBy('ordre');
     }
