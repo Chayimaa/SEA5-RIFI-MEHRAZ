@@ -256,8 +256,11 @@
             map.fitBounds(bounds.pad(0.1));
         }
 
-        document.querySelectorAll('.depot-row').forEach(row => {
+document.querySelectorAll('.depot-row').forEach(row => {
     row.addEventListener('click', function() {
+        // Fait défiler la page jusqu'à la carte
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
         const idx = parseInt(this.getAttribute('data-index'));
         if (markers[idx]) {
             map.setView(markers[idx].getLatLng(), 15, { animate: true });
