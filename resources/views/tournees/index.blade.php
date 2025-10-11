@@ -147,11 +147,14 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('tournees.show', $tournee) }}" class="text-blue-600 hover:text-blue-900 mr-3" title="Voir">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <a href="{{ route('tournees.lecture', $tournee) }}" class="text-purple-600 hover:text-purple-900" title="Voir sur la carte">
+                                    <i class="fas fa-map"></i>
+                                </a>
+                                <a href="{{ route('tournees.show', $tournee) }}" class="text-blue-600 hover:text-blue-900" title="Voir">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('tournees.edit', $tournee) }}" class="text-green-600 hover:text-green-900 mr-3" title="Modifier">
+                                <a href="{{ route('tournees.edit', $tournee) }}" class="text-green-600 hover:text-green-900" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('tournees.destroy', $tournee) }}" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tournée ?');">
