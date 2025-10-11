@@ -65,11 +65,32 @@ class TourneeController extends Controller
     /**
      * Afficher la tournée sur une carte (READ - carte)
      */
-    public function lecture(Tournee $tournee)
-    {
-        $tournee->load('depots');
-        return view('tournees.lecture', compact('tournee'));
-    }
+
+public function lecture(Tournee $tournee)
+{
+    $tournee->load(['depots' => function ($query) {
+        $query->orderBy('pivot_ordre');
+    }]);
+    $depots = $tournee->depots->map(function ($depot) {
+        return [
+            'id' => $depot->id,
+            'nom' => $depot->nom,
+            'adresse' => $depot->adresse,
+            'code_postal' => $depot->code_postal,
+            'ville' => $depot->ville,
+            'capacite' => $depot->capacite,
+            'latitude' => $depot->latitude,
+            'longitude' => $depot->longitude,
+            'pivot' => [
+                'ordre' => $depot->pivot->ordre
+            ]
+        ];
+    })->values();
+    return view('tournees.lecture', [
+        'tournee' => $tournee,
+        'depotsJson' => $depots->toJson()
+    ]);
+}
 
     /**
      * Formulaire pour modifier une tournée (UPDATE - formulaire)

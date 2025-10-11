@@ -129,21 +129,21 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacité</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($tournee->depots as $depot)
-                        <tr class="hover:bg-gray-50 transition-colors duration-150">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    #{{ $depot->pivot->ordre }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $depot->nom }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->adresse }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->code_postal }} {{ $depot->ville }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->capacite }} places</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+<tbody class="bg-white divide-y divide-gray-200">
+    @foreach($tournee->depots as $depot)
+    <tr class="hover:bg-gray-50 transition-colors duration-150 depot-row cursor-pointer" data-index="{{ $loop->index }}">
+        <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                #{{ $depot->pivot->ordre }}
+            </span>
+        </td>
+        <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $depot->nom }}</td>
+        <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->adresse }}</td>
+        <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->code_postal }} {{ $depot->ville }}</td>
+        <td class="px-6 py-4 text-sm text-gray-600">{{ $depot->capacite }} places</td>
+    </tr>
+    @endforeach
+</tbody>
                 </table>
             </div>
             @else
@@ -184,8 +184,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
     
     <script>
-        // Données des dépôts
 
+        // Données des dépôts
+    const depots = {!! $depotsJson ?? '[]' !!};
 
         // Initialiser la carte
         let map = L.map('map').setView([48.5, 6.5], 10); // Centre approximatif des Vosges
@@ -254,6 +255,16 @@
         if (markers.length > 0) {
             map.fitBounds(bounds.pad(0.1));
         }
+
+        document.querySelectorAll('.depot-row').forEach(row => {
+    row.addEventListener('click', function() {
+        const idx = parseInt(this.getAttribute('data-index'));
+        if (markers[idx]) {
+            map.setView(markers[idx].getLatLng(), 15, { animate: true });
+            markers[idx].openPopup();
+        }
+    });
+});
     </script>
 </body>
 </html>
